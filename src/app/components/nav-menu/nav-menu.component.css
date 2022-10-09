@@ -1,0 +1,44 @@
+
+#logo_login{
+    height: 50px;
+    transition-duration: 0.4s;
+    float: right;
+    margin-right: 0;
+}
+
+#logo_home{
+    height: 50px;
+    float: left;
+    margin-right: 0;
+}
+
+.dropdown:hover .dropdown-content {display:block}
+.dropdown:hover #logo_login{height:70px; width:70px;}
+
+/* #logo_login:hover{
+    height: 70px;
+    width: 70px;
+    
+} */
+
+.dropdown{
+    position:relative; 
+    display: inline-block;
+}
+
+.dropdown-content {
+    margin-top: 65%;
+    display: none;
+    position:relative;
+    background-color: #f1f1f1;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
