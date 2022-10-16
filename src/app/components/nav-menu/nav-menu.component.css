@@ -1,15 +1,16 @@
 
 #logo_login{
-    height: 50px;
+    height: 60px;
     transition-duration: 0.4s;
     float: right;
-    margin-right: 0;
+    margin-right: 30px;
 }
 
 #logo_home{
-    height: 50px;
+    height:50px;
     float: left;
     margin-right: 0;
+    position: fixed;
 }
 
 .dropdown:hover .dropdown-content {display:block}
@@ -23,13 +24,15 @@
 
 .dropdown{
     position:relative; 
-    display: inline-block;
+    float: inline-end;
+    margin-right: 30px;
+
 }
 
 .dropdown-content {
     margin-top: 65%;
     display: none;
-    position:relative;
+    position:absolute;
     background-color: #f1f1f1;
     min-width: 100px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -46,7 +49,9 @@
   }
 
   .wrapper{
-    margin-left: auto;
+    position: absolute;
+    margin:auto; 
+    margin-left: 40%;
     margin-right: auto;  
     width: 380px;
     background: #fff;
