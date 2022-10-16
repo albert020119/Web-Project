@@ -13,8 +13,9 @@
             src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
         />
         <div class="dropdown-content">
-            <button id="login_button" (click)="showlogin()">Log In</button>
-            <button>Register</button>
+            <button id="login_button" (click)="showlogin()" *ngIf="!isLoggedIn">Log In</button>
+            <button  *ngIf="isLoggedIn">{{getMail()}}</button>
+            <button (click)="logout()" *ngIf="isLoggedIn">Log out</button>
             <button>About</button>
         </div>
     </div>

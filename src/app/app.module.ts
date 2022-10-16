@@ -8,13 +8,16 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { FirebaseService } from './services/firebase.service';
 import { environment } from 'src/environments/environment';
+import { ProductComponent } from './components/product/product.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchBarComponent,
-    NavMenuComponent
+    NavMenuComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,
