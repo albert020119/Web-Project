@@ -90,6 +90,10 @@ export class NavMenuComponent implements OnInit {
     this.firebaseService.addProduct(name, image, price)
   }
 
+  removeProductFromDatabase(name : string){
+    this.firebaseService.removeProduct(name)
+  }
+
   getMail(){
     return this.mail
   }

@@ -16,6 +16,7 @@ export class ProductComponent implements OnInit {
 
   @Input() img_link: string;
   @Input() text: string;
+  @Input() price: string; 
   products : CollectionReference<DocumentData>;
   db : Firestore
 

@@ -16,6 +16,7 @@
             <button id="login_button" (click)="showlogin()" *ngIf="!isLoggedIn">Log In</button>
             <button  *ngIf="isLoggedIn">My Cart</button>
             <button (click)="showProductForm()" *ngIf="isLoggedIn">Add a product to DB</button>
+            <button (click)="showProductForm()" *ngIf="isLoggedIn">Remove from DB</button>
             <button (click)="logout()" *ngIf="isLoggedIn">Log out</button>
             <button>About</button>
         </div>
@@ -77,7 +78,7 @@
          <input type="submit" value="Add product" (click)="addProductToDatabase(product_name.value, product_image.value, price.value)">
       </div>
       <div class="field">
-       <input type="submit" value="Register" (click)="onRegister($event, email.value, password.value)">
+       <input type="submit" value="Remove by name" (click)="removeProductFromDatabase(product_name.value)">
     </div>
       <button  (click)="showProductForm()">
        Cancel

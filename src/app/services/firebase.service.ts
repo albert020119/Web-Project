@@ -7,6 +7,8 @@ import {
 } from '@angular/fire/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { Observable } from 'rxjs';
+import { ProductComponent } from '../components/product/product.component';
+import { Product } from '../components/product/product_model';
 
 
 @Injectable({
@@ -64,6 +66,8 @@ export class FirebaseService {
 
   async addProduct(name : string, image : string, price : string){
     console.log('adding product to database')
+    this.db = getFirestore()
+    this.products = collection(this.db, "products")
     await addDoc(this.products, {
       name: name,
       image: image,
@@ -76,5 +80,26 @@ export class FirebaseService {
         console.log(error.message)
     })
     return
+  }
+
+  async removeProduct(name : string){
+    this.db = getFirestore()
+    this.products = collection(this.db, "products")
+    console.log("Removing item from database")
+    this.getProducts().subscribe((rez : Product[]) => {
+      rez.forEach(item =>{
+        if (item.name === name){
+          var doc_to_delete = doc(this.products, 'products/{item.id}')
+          deleteDoc(doc_to_delete)
+        }
+      })
+      
+    })
+  }
+
+  getProducts() : Observable<Product[]>{
+    this.db = getFirestore()
+    this.products = collection(this.db, "products")
+    return collectionData(this.products, {idField:"id"}) as Observable<Product[]>
   }
 }
