@@ -1,4 +1,7 @@
+.navbar{
+  display: flex; justify-content:space-between;  border-radius: 15px;
 
+}
 #logo_login{
     height: 60px;
     transition-duration: 0.4s;

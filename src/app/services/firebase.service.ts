@@ -1,13 +1,26 @@
 import { Injectable } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth'
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import {
+  Firestore, addDoc, collection, collectionData,
+  doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc, CollectionReference, DocumentData
+} from '@angular/fire/firestore';
+import { getFirestore } from 'firebase/firestore';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
   isLoggedIn = false
-  constructor(public firebaseAuth: AngularFireAuth){
-
+  user_database : AngularFirestoreCollection<any[]>;
+  products : CollectionReference<DocumentData>;
+  db : Firestore
+  constructor(public firebaseAuth: AngularFireAuth, public database : AngularFirestore){
+      this.db = getFirestore()
+      this.products = collection(this.db, "products")
+      console.log(this.user_database)
   }
 
   async signin(email: string, password: string)
@@ -47,5 +60,21 @@ export class FirebaseService {
   logout(){
     this.firebaseAuth.signOut()
     localStorage.removeItem('user')
+  }
+
+  async addProduct(name : string, image : string, price : string){
+    console.log('adding product to database')
+    await addDoc(this.products, {
+      name: name,
+      image: image,
+      price: price
+    }).then(res => {
+        console.log("success")
+    })
+    .catch(function(error) {
+        console.log("error occured")
+        console.log(error.message)
+    })
+    return
   }
 }

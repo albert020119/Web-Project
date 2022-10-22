@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content:space-between; background-color: aqua; border-radius: 15px;">
+<div class="navbar">
     <input
     id="logo_home"
     type="image"
@@ -14,7 +14,8 @@
         />
         <div class="dropdown-content">
             <button id="login_button" (click)="showlogin()" *ngIf="!isLoggedIn">Log In</button>
-            <button  *ngIf="isLoggedIn">{{getMail()}}</button>
+            <button  *ngIf="isLoggedIn">My Cart</button>
+            <button (click)="showProductForm()" *ngIf="isLoggedIn">Add a product to DB</button>
             <button (click)="logout()" *ngIf="isLoggedIn">Log out</button>
             <button>About</button>
         </div>
@@ -54,3 +55,32 @@
        </button>
     </form>
  </div>
+
+ <div class="wrapper" [hidden] = "productForm" >
+   <div class="title">
+      Add product to database
+   </div>
+   <form action="#">
+      <div class="field">
+         <input type="text" #product_name required>
+         <label>Name</label>
+      </div>
+      <div class="field">
+         <input type="text" #product_image required>
+         <label>Image</label>
+      </div>
+      <div class="field">
+         <input type="text" #price required>
+         <label>Price</label>
+      </div>
+      <div class="field">
+         <input type="submit" value="Add product" (click)="addProductToDatabase(product_name.value, product_image.value, price.value)">
+      </div>
+      <div class="field">
+       <input type="submit" value="Register" (click)="onRegister($event, email.value, password.value)">
+    </div>
+      <button  (click)="showProductForm()">
+       Cancel
+      </button>
+   </form>
+</div>

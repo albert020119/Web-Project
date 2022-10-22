@@ -5,6 +5,9 @@ import { FirebaseService } from 'src/app/services/firebase.service'
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { ThisReceiver } from '@angular/compiler';
+import { ProductComponent } from '../product/product.component';
+
+
 
 @Component({
   selector: 'app-nav-menu',
@@ -14,10 +17,12 @@ import { ThisReceiver } from '@angular/compiler';
 export class NavMenuComponent implements OnInit {
 
   constructor(public firebaseService : FirebaseService) { 
+    this.productForm = true
   }
 
   isDisplay = true
   isLoggedIn = false
+  productForm = true
   uid = ""
   mail = "asd"
 
@@ -26,20 +31,28 @@ export class NavMenuComponent implements OnInit {
       this.isLoggedIn = true
       else 
       this.isLoggedIn = false
+
+      this.productForm = true
   }
 
   showlogin(){
     this.isDisplay=!this.isDisplay
   }
 
+  showProductForm(){
+    console.log("asd")
+    this.productForm = !this.productForm
+  }
+
   async onLogin(event : Event, email : string, password : string)
   {
       event.preventDefault()
       await this.firebaseService.signin(email, password)
-      if (this.firebaseService.isLoggedIn)
+      if (this.firebaseService.isLoggedIn){
         this.handleLogIn()
         this.isLoggedIn = true
         this.showlogin()
+      }
   }
 
 
@@ -71,6 +84,10 @@ export class NavMenuComponent implements OnInit {
         this.mail = mail 
       }
     }
+  }
+
+  addProductToDatabase(name : string, image : string, price : string){
+    this.firebaseService.addProduct(name, image, price)
   }
 
   getMail(){

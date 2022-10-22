@@ -9,6 +9,11 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { FirebaseService } from './services/firebase.service';
 import { environment } from 'src/environments/environment';
 import { ProductComponent } from './components/product/product.component';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule } from "@angular/fire/compat/firestore";
+
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database'
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 
 
@@ -22,7 +27,8 @@ import { ProductComponent } from './components/product/product.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    
   ],
   providers: [FirebaseService],
   bootstrap: [AppComponent]
