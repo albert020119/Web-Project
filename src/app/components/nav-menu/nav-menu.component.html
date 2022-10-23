@@ -13,11 +13,10 @@
             src="https://www.iconpacks.net/icons/1/free-user-login-icon-305-thumb.png"
         />
         <div class="dropdown-content">
-            <button id="login_button" (click)="showlogin()" *ngIf="!isLoggedIn">Log In</button>
+            <button id="login_button" (click)="showlogin()" *ngIf="!isLoggedIn && !isAdmin">Log In</button>
             <button  *ngIf="isLoggedIn">My Cart</button>
-            <button (click)="showProductForm()" *ngIf="isLoggedIn">Add a product to DB</button>
-            <button (click)="showProductForm()" *ngIf="isLoggedIn">Remove from DB</button>
-            <button (click)="logout()" *ngIf="isLoggedIn">Log out</button>
+            <button (click)="showProductForm()" *ngIf="isAdmin">Modify DB</button>
+            <button (click)="logout()" *ngIf="isLoggedIn || isAdmin">Log out</button>
             <button>About</button>
         </div>
     </div>
@@ -46,11 +45,14 @@
           </div>
        </div>
        <div class="field">
-          <input type="submit" value="Login" (click)="onLogin($event, email.value, password.value)">
+          <input type="submit" value="Log in" (click)="onLogin($event, email.value, password.value)">
        </div>
        <div class="field">
+         <input type="submit" value="Log in as admin" (click)="onAdminLogin($event, email.value, password.value)">
+      </div>
+       <div class="field">
         <input type="submit" value="Register" (click)="onRegister($event, email.value, password.value)">
-     </div>
+       </div>
        <button id="cancel_button" (click)="showlogin()">
         Cancel
        </button>

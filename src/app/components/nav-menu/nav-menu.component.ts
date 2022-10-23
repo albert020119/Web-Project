@@ -6,6 +6,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { ThisReceiver } from '@angular/compiler';
 import { ProductComponent } from '../product/product.component';
+import { Admin } from 'src/app/services/admin_model';
 
 
 
@@ -22,6 +23,7 @@ export class NavMenuComponent implements OnInit {
 
   isDisplay = true
   isLoggedIn = false
+  isAdmin = false 
   productForm = true
   uid = ""
   mail = "asd"
@@ -32,6 +34,10 @@ export class NavMenuComponent implements OnInit {
       else 
       this.isLoggedIn = false
 
+      if (localStorage.getItem("admin")!== null)
+      this.isAdmin = true
+      else 
+      this.isAdmin = false
       this.productForm = true
   }
 
@@ -55,6 +61,22 @@ export class NavMenuComponent implements OnInit {
       }
   }
 
+  async onAdminLogin(event : Event, email : string, password: string){
+    console.log(this.isAdmin)
+    this.firebaseService.getAdmins().subscribe((rez : Admin[]) => {
+      rez.forEach(item => {
+        console.log(item)
+        if (item.email == email && item.password == password){
+          this.setAdmin()
+        }
+      })
+      })
+  }
+
+  setAdmin(){
+    localStorage.setItem('admin','1')
+    this.isAdmin = !this.isAdmin
+  }
 
   async onRegister(event : Event, email : string, password : string)
   {
@@ -72,7 +94,9 @@ export class NavMenuComponent implements OnInit {
 
   async logout(){
     this.firebaseService.logout()
+    localStorage.clear()
     this.isLoggedIn=false
+    this.isAdmin=false
   }
 
   handleLogIn(){
@@ -84,6 +108,11 @@ export class NavMenuComponent implements OnInit {
         this.mail = mail 
       }
     }
+  }
+
+  handleAdminLogIn(){
+    console.log("logged in as admin succesfully")
+    this.isAdmin = true
   }
 
   addProductToDatabase(name : string, image : string, price : string){

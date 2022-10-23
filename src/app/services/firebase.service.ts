@@ -9,6 +9,7 @@ import { getFirestore } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { ProductComponent } from '../components/product/product.component';
 import { Product } from '../components/product/product_model';
+import { Admin } from './admin_model';
 
 
 @Injectable({
@@ -89,7 +90,8 @@ export class FirebaseService {
     this.getProducts().subscribe((rez : Product[]) => {
       rez.forEach(item =>{
         if (item.name === name){
-          var doc_to_delete = doc(this.products, 'products/{item.id}')
+          console.log(item)
+          var doc_to_delete = doc(this.db, `products/${item.id}`)
           deleteDoc(doc_to_delete)
         }
       })
@@ -101,5 +103,11 @@ export class FirebaseService {
     this.db = getFirestore()
     this.products = collection(this.db, "products")
     return collectionData(this.products, {idField:"id"}) as Observable<Product[]>
+  }
+
+  getAdmins() : Observable<Admin[]>{
+    this.db = getFirestore()
+    this.products = collection(this.db, "admins")
+    return collectionData(this.products, {idField:"id"}) as Observable<Admin[]>
   }
 }
