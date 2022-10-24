@@ -6,6 +6,8 @@ import {
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { getFirestore } from 'firebase/firestore';
+import { NavMenuComponent } from '../nav-menu/nav-menu.component';
+import { FirebaseService } from 'src/app/services/firebase.service'
 
 @Component({
   selector: 'app-product',
@@ -17,10 +19,12 @@ export class ProductComponent implements OnInit {
   @Input() img_link: string;
   @Input() text: string;
   @Input() price: string; 
+  @Input() isLoggedin: string; 
+  @Input() isAdmin: string; 
   products : CollectionReference<DocumentData>;
   db : Firestore
 
-  constructor() {
+  constructor(public firebase : FirebaseService) {
       this.db = getFirestore()
       this.products = collection(this.db,'products')
    }
@@ -34,6 +38,12 @@ export class ProductComponent implements OnInit {
         image: image,
         price: price
       })
+  }
+
+  deleteProduct(title : string){
+      console.log("asd")
+      console.log("deleting "+ this.text)
+      this.firebase.removeProduct(this.text)
   }
 
 }

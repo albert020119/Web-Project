@@ -1,6 +1,6 @@
 <html>
   <body class="bg">
-    <app-nav-menu>
+    <app-nav-menu (messageEvent1)="receiveMessage1($event)" (messageEvent2)="receiveMessage2($event)">
       <app-search-bar>
 
       </app-search-bar>
@@ -21,8 +21,8 @@
       img_link="https://cdn.ozone.ro/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/d/e/63f92f954103b5e65d2add08407fe646/mouse-gaming-razer---deathadder-v2--negru-30.jpg" 
       text="Razer Mouse"
       ></app-product> -->
-      <div *ngIf="products" style="z-index: -1;">
-          <app-product *ngFor="let product of products; index as i"
+      <div *ngIf="products" style="z-index: -1; display: flex; flex-wrap: wrap;">
+          <app-product [isLoggedin]="message1" [isAdmin]="message2" *ngFor="let product of products; index as i"
             img_link={{product.image}}
             text={{product.name}}
             price={{product.price}}></app-product>

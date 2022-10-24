@@ -3,9 +3,17 @@
     <h1 class="title">
         {{text}}
     </h1>
-    <input 
+    <input
+    *ngIf="isLoggedin" 
     type="image"
     src="https://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Cart-add-icon.png"
     style="height:50px ; width:50px; position: absolute; margin:auto ">
+    <input
+    *ngIf="isAdmin"
+    type="image"
+    src="https://images.vexels.com/media/users/3/223479/isolated/preview/8ecc75c9d0cf6d942cce96e196d4953f-trash-bin-icon-flat.png"
+    style="height:50px ; width:50px; position: absolute; margin:auto"
+    (click)="deleteProduct(text)"
+    >
     <div style="float: right; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">{{price}}</div>
 </div>

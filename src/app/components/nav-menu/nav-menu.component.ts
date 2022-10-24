@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgModule } from '@angular/core'
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { FirebaseService } from 'src/app/services/firebase.service'
@@ -16,8 +16,20 @@ import { Admin } from 'src/app/services/admin_model';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent implements OnInit {
+  @Output() messageEvent1 = new EventEmitter<boolean>();
+  @Output() messageEvent2 = new EventEmitter<boolean>();
+
+  sendMessage1(msg : boolean) {
+    this.messageEvent1.emit(msg)
+  }
+
+  sendMessage2(msg : boolean) {
+    this.messageEvent2.emit(msg)
+  }
 
   constructor(public firebaseService : FirebaseService) { 
+    this.sendMessage1(false)
+    //this.sendMessage2(false)
     this.productForm = true
   }
 
@@ -34,12 +46,15 @@ export class NavMenuComponent implements OnInit {
       else 
       this.isLoggedIn = false
 
-      if (localStorage.getItem("admin")!== null)
-      this.isAdmin = true
+      if (localStorage.getItem("admin")!== null){
+          this.sendMessage2(true)
+          this.isAdmin = true
+      }
       else 
       this.isAdmin = false
       this.productForm = true
   }
+
 
   showlogin(){
     this.isDisplay=!this.isDisplay
@@ -55,6 +70,7 @@ export class NavMenuComponent implements OnInit {
       event.preventDefault()
       await this.firebaseService.signin(email, password)
       if (this.firebaseService.isLoggedIn){
+        this.sendMessage1(true)
         this.handleLogIn()
         this.isLoggedIn = true
         this.showlogin()
@@ -67,6 +83,7 @@ export class NavMenuComponent implements OnInit {
       rez.forEach(item => {
         console.log(item)
         if (item.email == email && item.password == password){
+          this.sendMessage2(true)
           this.setAdmin()
         }
       })
@@ -94,6 +111,8 @@ export class NavMenuComponent implements OnInit {
 
   async logout(){
     this.firebaseService.logout()
+    this.sendMessage1(false)
+    this.sendMessage2(false)
     localStorage.clear()
     this.isLoggedIn=false
     this.isAdmin=false

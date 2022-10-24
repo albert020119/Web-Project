@@ -12,9 +12,18 @@ export class AppComponent {
   constructor(public firebase : FirebaseService){}
 
   ngOnInit():void{
-      console.log("muie")
       this.firebase.getProducts().subscribe((rez  : Product[]) => {
           this.products = rez 
       })
+  }
+  message1: string;
+  message2: string; 
+
+  receiveMessage1($event : any) {
+    this.message1 = $event
+  }
+
+  receiveMessage2($event : any) {
+    this.message2 = $event
   }
 }

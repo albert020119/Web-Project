@@ -30,7 +30,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     AngularFireModule.initializeApp(environment.firebase),
     
   ],
-  providers: [FirebaseService],
+  providers: [FirebaseService, NavMenuComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
