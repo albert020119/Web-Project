@@ -30,9 +30,11 @@ export class NavMenuComponent implements OnInit {
   constructor(public firebaseService : FirebaseService) { 
     this.sendMessage1(false)
     //this.sendMessage2(false)
+    this.resetPassView = false
     this.productForm = true
   }
 
+  resetPassView = false
   isDisplay = true
   isLoggedIn = false
   isAdmin = false 
@@ -50,8 +52,10 @@ export class NavMenuComponent implements OnInit {
           this.sendMessage2(true)
           this.isAdmin = true
       }
-      else 
-      this.isAdmin = false
+      else{
+        this.isAdmin = false
+      }
+      this.resetPassView = false  
       this.productForm = true
   }
 
@@ -63,6 +67,15 @@ export class NavMenuComponent implements OnInit {
   showProductForm(){
     console.log("asd")
     this.productForm = !this.productForm
+  }
+
+  resetPassword(){
+      this.firebaseService.sendResetMail(this.getMail())
+      this.resetPassView = true
+  }
+
+  hideReset(){
+    this.resetPassView = !this.resetPassView
   }
 
   async onLogin(event : Event, email : string, password : string)
@@ -79,6 +92,8 @@ export class NavMenuComponent implements OnInit {
 
   async onAdminLogin(event : Event, email : string, password: string){
     console.log(this.isAdmin)
+    this.sendMessage2(true)
+    this.setAdmin()
     this.firebaseService.getAdmins().subscribe((rez : Admin[]) => {
       rez.forEach(item => {
         console.log(item)
@@ -134,8 +149,8 @@ export class NavMenuComponent implements OnInit {
     this.isAdmin = true
   }
 
-  addProductToDatabase(name : string, image : string, price : string){
-    this.firebaseService.addProduct(name, image, price)
+  async addProductToDatabase(name : string, image : string, price : string){
+     await this.firebaseService.addProduct(name, image, price)
   }
 
   removeProductFromDatabase(name : string){

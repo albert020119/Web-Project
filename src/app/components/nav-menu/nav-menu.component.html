@@ -15,6 +15,7 @@
         <div class="dropdown-content">
             <button id="login_button" (click)="showlogin()" *ngIf="!isLoggedIn && !isAdmin">Log In</button>
             <button  *ngIf="isLoggedIn">My Cart</button>
+            <button  *ngIf="isLoggedIn" (click)="resetPassword()">Reset Password</button>
             <button (click)="showProductForm()" *ngIf="isAdmin">Modify DB</button>
             <button (click)="logout()" *ngIf="isLoggedIn || isAdmin">Log out</button>
             <button>About</button>
@@ -85,5 +86,17 @@
       <button  (click)="showProductForm()">
        Cancel
       </button>
+   </form>
+</div>
+
+<div class="wrapper" *ngIf = "resetPassView" >
+   <div class="title">
+      Password reset
+   </div>
+   <form action="#">
+      <p style = "font-style:italic">A reset email has been sent. Check your mail and follow the instructions</p>
+      <div class="field">
+         <input type="submit" value="OK" (click)="hideReset()">
+      </div>
    </form>
 </div>

@@ -21,8 +21,8 @@ export class FirebaseService {
   products : CollectionReference<DocumentData>;
   db : Firestore
   constructor(public firebaseAuth: AngularFireAuth, public database : AngularFirestore){
-      this.db = getFirestore()
-      this.products = collection(this.db, "products")
+      // this.db = getFirestore()
+      // this.products = collection(this.db, "products")
       console.log(this.user_database)
   }
 
@@ -51,6 +51,10 @@ export class FirebaseService {
     
   }
 
+  sendResetMail(email : string){
+    this.firebaseAuth.sendPasswordResetEmail(email)
+  }
+
   async signup(email: string, password: string)
   {
     await this.firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -69,6 +73,7 @@ export class FirebaseService {
     console.log('adding product to database')
     this.db = getFirestore()
     this.products = collection(this.db, "products")
+    try {
     await addDoc(this.products, {
       name: name,
       image: image,
@@ -79,7 +84,10 @@ export class FirebaseService {
     .catch(function(error) {
         console.log("error occured")
         console.log(error.message)
-    })
+    })}
+    catch (err){
+      console.log(err)
+    }
     return
   }
 
