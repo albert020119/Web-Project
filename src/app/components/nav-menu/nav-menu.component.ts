@@ -92,8 +92,8 @@ export class NavMenuComponent implements OnInit {
 
   async onAdminLogin(event : Event, email : string, password: string){
     console.log(this.isAdmin)
-    this.sendMessage2(true)
-    this.setAdmin()
+    // this.sendMessage2(true)
+    // this.setAdmin()
     this.firebaseService.getAdmins().subscribe((rez : Admin[]) => {
       rez.forEach(item => {
         console.log(item)
