@@ -7,6 +7,7 @@ import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { ThisReceiver } from '@angular/compiler';
 import { ProductComponent } from '../product/product.component';
 import { Admin } from 'src/app/services/admin_model';
+import { CartItem } from 'src/app/services/cartItem_model';
 
 
 
@@ -39,8 +40,10 @@ export class NavMenuComponent implements OnInit {
   isLoggedIn = false
   isAdmin = false 
   productForm = true
+  showCartDiv = false
   uid = ""
   mail = "asd"
+  cart : CartItem[]
 
   ngOnInit(): void {
       if (localStorage.getItem("user")!== null)
@@ -83,6 +86,7 @@ export class NavMenuComponent implements OnInit {
       event.preventDefault()
       await this.firebaseService.signin(email, password)
       if (this.firebaseService.isLoggedIn){
+        this.getCart()
         this.sendMessage1(true)
         this.handleLogIn()
         this.isLoggedIn = true
@@ -105,6 +109,28 @@ export class NavMenuComponent implements OnInit {
       })
   }
 
+  showCart(){
+    console.log("showing cart")
+    this.showCartDiv = true
+  }
+
+  hideCart(){
+    this.showCartDiv = false
+  }
+
+  getCart(){
+    this.cart = []
+    this.firebaseService.getCart().subscribe((rez : CartItem[]) => {
+      rez.forEach(item =>{
+        console.log(item)
+        if (item.mail === this.getMail()){
+          console.log("pushing to array")
+          this.cart.push(item)
+        }
+      })
+      
+    })
+  }
   setAdmin(){
     localStorage.setItem('admin','1')
     this.isAdmin = !this.isAdmin

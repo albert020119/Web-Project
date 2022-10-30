@@ -5,11 +5,13 @@ import {
   Firestore, addDoc, collection, collectionData,
   doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc, CollectionReference, DocumentData
 } from '@angular/fire/firestore';
+import { ResolveStart } from '@angular/router';
 import { getFirestore } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { ProductComponent } from '../components/product/product.component';
 import { Product } from '../components/product/product_model';
 import { Admin } from './admin_model';
+import { CartItem } from './cartItem_model';
 
 
 @Injectable({
@@ -20,6 +22,8 @@ export class FirebaseService {
   user_database : AngularFirestoreCollection<any[]>;
   products : CollectionReference<DocumentData>;
   db : Firestore
+
+  mail = "" 
   constructor(public firebaseAuth: AngularFireAuth, public database : AngularFirestore){
       // this.db = getFirestore()
       // this.products = collection(this.db, "products")
@@ -31,6 +35,9 @@ export class FirebaseService {
     await this.firebaseAuth.signInWithEmailAndPassword(email, password)
     .then(res =>{
       alert("sign in succes")
+      if (res.user?.email){
+        this.mail = res.user.email
+      }
       this.isLoggedIn=true
       localStorage.setItem('user',JSON.stringify(res.user))
     }, err => {
@@ -107,10 +114,39 @@ export class FirebaseService {
     })
   }
 
+  async addToCart(name: string , image: string, price: string){
+    console.log('adding cart item to database')
+    this.db = getFirestore()
+    this.products = collection(this.db, "carts")
+    try {
+    await addDoc(this.products, {
+      name: name,
+      image: image,
+      price: price,
+      mail: this.mail
+    }).then(res => {
+        console.log("success")
+    })
+    .catch(function(error) {
+        console.log("error occured")
+        console.log(error.message)
+    })}
+    catch (err){
+      console.log(err)
+    }
+    return
+  } 
+
   getProducts() : Observable<Product[]>{
     this.db = getFirestore()
     this.products = collection(this.db, "products")
     return collectionData(this.products, {idField:"id"}) as Observable<Product[]>
+  }
+
+  getCart() : Observable<CartItem[]>{
+    this.db = getFirestore()
+    this.products = collection(this.db, "carts")
+    return collectionData(this.products, {idField:"id"}) as Observable<CartItem[]>
   }
 
   getAdmins() : Observable<Admin[]>{

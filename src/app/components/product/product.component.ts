@@ -40,6 +40,10 @@ export class ProductComponent implements OnInit {
       })
   }
 
+  addToCart(){
+    this.firebase.addToCart(this.text, this.img_link, this.price)
+  }
+
   deleteProduct(title : string){
       console.log("asd")
       console.log("deleting "+ this.text)
