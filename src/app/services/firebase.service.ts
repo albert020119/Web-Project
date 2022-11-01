@@ -136,6 +136,24 @@ export class FirebaseService {
     }
     return
   }
+
+  async addOrder(item : CartItem){
+    console.log('adding order item to database')
+    this.db = getFirestore()
+    this.products = collection(this.db, "orders")
+    try {
+    await addDoc(this.products, item).then(res => {
+        console.log("success")
+    })
+    .catch(function(error) {
+        console.log("error occured")
+        console.log(error.message)
+    })}
+    catch (err){
+      console.log(err)
+    }
+    return
+  }
   
   async removeItemFromCart(item_to_delete : CartItem){
     this.db = getFirestore()
@@ -162,6 +180,12 @@ export class FirebaseService {
   getCart() : Observable<CartItem[]>{
     this.db = getFirestore()
     this.products = collection(this.db, "carts")
+    return collectionData(this.products, {idField:"id"}) as Observable<CartItem[]>
+  }
+
+  getOrders() : Observable<CartItem[]>{
+    this.db = getFirestore()
+    this.products = collection(this.db, "orders")
     return collectionData(this.products, {idField:"id"}) as Observable<CartItem[]>
   }
 

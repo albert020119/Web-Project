@@ -41,6 +41,8 @@ export class NavMenuComponent implements OnInit {
   isAdmin = false 
   productForm = true
   showCartDiv = false
+  showOrdersDiv = false
+  order =  {}
   subtotal = 0.0
   uid = ""
   total : string
@@ -121,6 +123,10 @@ export class NavMenuComponent implements OnInit {
     this.showCartDiv = false 
   }
 
+  hideOrders(){
+    this.showOrdersDiv = false 
+  }
+
   getCart(){
     this.cart = []
     this.subtotal = 0
@@ -152,7 +158,38 @@ export class NavMenuComponent implements OnInit {
   }
 
   onCheckout(){
-    
+    let i = 0  
+    this.cart.forEach(item => {
+        this.firebaseService.addOrder(item)
+        this.firebaseService.removeItemFromCart(item)
+    })
+  }
+
+  showOrders(){
+      this.getOrders()
+      this.showOrdersDiv = true
+  }
+
+  getOrders(){
+    this.cart = []
+    this.subtotal = 0
+    this.total = ""
+    this.firebaseService.getOrders().subscribe((rez : CartItem[]) => {
+      rez.forEach(item =>{
+        console.log(item)
+          console.log(typeof(item.price))
+          console.log(parseFloat(item.price))
+          if(!isNaN(parseFloat(item.price))) {
+            console.log(parseFloat(item.price))
+            this.subtotal = this.subtotal + parseFloat(item.price)
+          }
+          console.log("pushing to array")
+          this.cart.push(item)
+      })
+      this.total = this.subtotal.toFixed(2)
+      
+    })
+    this.total = this.subtotal.toFixed(2)
   }
 
   setAdmin(){
