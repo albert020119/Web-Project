@@ -135,7 +135,23 @@ export class FirebaseService {
       console.log(err)
     }
     return
-  } 
+  }
+  
+  async removeItemFromCart(item_to_delete : CartItem){
+    this.db = getFirestore()
+    this.products = collection(this.db, "carts")
+    this.getCart().subscribe((rez : CartItem[]) => {
+      rez.forEach(item =>{
+        console.log(item)
+        if (item.name == item_to_delete.name && item.image == item_to_delete.image && item.price == item_to_delete.price){
+          console.log(item)
+          var doc_to_delete = doc(this.db, `carts/${item.id}`)
+          deleteDoc(doc_to_delete)
+        }
+      })
+      
+    })
+  }
 
   getProducts() : Observable<Product[]>{
     this.db = getFirestore()

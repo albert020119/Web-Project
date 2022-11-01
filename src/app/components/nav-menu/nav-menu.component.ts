@@ -41,7 +41,9 @@ export class NavMenuComponent implements OnInit {
   isAdmin = false 
   productForm = true
   showCartDiv = false
+  subtotal = 0.0
   uid = ""
+  total : string
   mail = "asd"
   cart : CartItem[]
 
@@ -111,26 +113,48 @@ export class NavMenuComponent implements OnInit {
 
   showCart(){
     console.log("showing cart")
+    this.getCart()
     this.showCartDiv = true
   }
 
   hideCart(){
-    this.showCartDiv = false
+    this.showCartDiv = false 
   }
 
   getCart(){
     this.cart = []
+    this.subtotal = 0
+    this.total = ""  
     this.firebaseService.getCart().subscribe((rez : CartItem[]) => {
       rez.forEach(item =>{
         console.log(item)
         if (item.mail === this.getMail()){
+          console.log(typeof(item.price))
+          console.log(parseFloat(item.price))
+          if(!isNaN(parseFloat(item.price))) {
+            console.log(parseFloat(item.price))
+            this.subtotal = this.subtotal + parseFloat(item.price)
+          }
           console.log("pushing to array")
           this.cart.push(item)
         }
       })
+      this.total = this.subtotal.toFixed(2)
       
     })
+    this.total = this.subtotal.toFixed(2)
   }
+
+  removeItemFromCart(item : CartItem){
+      console.log("Removing item from cart")
+      this.firebaseService.removeItemFromCart(item)
+      this.hideCart()
+  }
+
+  onCheckout(){
+    
+  }
+
   setAdmin(){
     localStorage.setItem('admin','1')
     this.isAdmin = !this.isAdmin
