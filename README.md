@@ -1,8 +1,8 @@
 # Project for Web Programming class
 
-Basic store website
+Electronics e-commerce website
 
-Specifications: 
+# Specifications: 
   - Users can register, log in and reset their password 
   - Users can see available products on the main page
   - Users have the ability to add products to their cart 
